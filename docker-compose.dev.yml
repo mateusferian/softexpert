@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  server:
+    container_name: softexpert-api
+    entrypoint: [ "sh", "-c", "java -cp app:app/lib/*  br.com.mateusferian.softexpert.SoftexpertApplication" ]
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://softexpert-db:3306/db_softexpert?createDatabaseIfNotExist=true
+      - DATABASE_HOST=db_softexpert
+      - DATABASE_USER=db_softexpert
+      - DATABASE_PASSWORD=123456
+      - DATABASE_NAME=db_softexpert
+      - DATABASE_PORT=3306
+
+    depends_on:
+      - db-softexpert
+
+  db-softexpert:
+    image: mysql:8.0
+    container_name: softexpert-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db_softexpert
+      - MYSQL_USER=db_softexpert
+      - MYSQL_PASSWORD=123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/data/db
