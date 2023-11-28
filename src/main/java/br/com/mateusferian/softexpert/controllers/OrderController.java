@@ -1,8 +1,11 @@
 package br.com.mateusferian.softexpert.controllers;
 
 import br.com.mateusferian.softexpert.dtos.requests.OrderRequestDTO;
+import br.com.mateusferian.softexpert.dtos.requests.PurchaseRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.OrderResponseDTO;
+import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
 import br.com.mateusferian.softexpert.facades.OrderFacade;
+import br.com.mateusferian.softexpert.facades.PurchaseFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
