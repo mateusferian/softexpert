@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,8 +44,12 @@ public class OrderMapper {
     public OrderEntity toEntity(OrderRequestDTO request) {
 
         OrderEntity order = mapper.map(request, OrderEntity.class);
+
             order.setRequestDate(new Date());
-            order.setFood(foodRepository.findById(request.getFood()).orElse(new FoodEntity()));
+        List<Long> foodIds = request.getFood();
+        List<FoodEntity> foods = (List<FoodEntity>) foodRepository.findAllById(foodIds);
+        order.setFood(foods);
+
             order.setUser(userRepository.findById(request.getUser()).orElse(new UserEntity()));
 
         return order;

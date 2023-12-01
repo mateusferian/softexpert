@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,13 +25,12 @@ public class OrderEntity {
     @ManyToOne
     private UserEntity user;
 
-    @ManyToOne
-    private FoodEntity food;
-
-    public OrderEntity(Date requestDate, UserEntity user, FoodEntity food) {
-        RequestDate = requestDate;
-        this.user = user;
-        this.food = food;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "order_food_mapping",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_id")
+    )
+    private List<FoodEntity> food;
 }
 

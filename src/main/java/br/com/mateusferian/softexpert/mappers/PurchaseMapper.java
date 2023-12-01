@@ -32,8 +32,6 @@ public class PurchaseMapper {
     @Autowired
     private OrderRepository orderRepository;
 
-    private static final BigDecimal DELIVERY_VALUE  = BigDecimal.valueOf(8);
-
     public PurchaseResponseDTO toDto(PurchaseEntity entity) {
         return mapper.map(entity, PurchaseResponseDTO.class);
     }
@@ -45,7 +43,9 @@ public class PurchaseMapper {
         purchase.setRequestDate(new Date());
         purchase.setOrder(order);
 
-        purchase.setTotalValue(calculateTotal(order.getFood().getValue(), request.getDelivery() , request.getDiscount()));
+        BigDecimal valueTotalFoods = calculateTotalFoodCosts(order.getFood());
+        purchase.setTotalValue(calculateTotal(valueTotalFoods, request.getDelivery() , request.getDiscount()));
+
         return purchase;
     }
 
@@ -57,14 +57,13 @@ public class PurchaseMapper {
                 .collect(Collectors.toList());
     }
 
-    private BigDecimal discount(BigDecimal discount) {
-        if (discount == null) {
-            return BigDecimal.valueOf(0);
-        } else {
-            return discount;
+    private BigDecimal calculateTotalFoodCosts(List<FoodEntity> foods) {
+        BigDecimal valueFoods = BigDecimal.ZERO;
+        for (FoodEntity food : foods) {
+            valueFoods = valueFoods.add(food.getValue());
         }
+        return valueFoods;
     }
-
 
     private BigDecimal calculateTotal(BigDecimal order, BigDecimal delivery, BigDecimal discount) {
 
@@ -73,6 +72,7 @@ public class PurchaseMapper {
         discount = (discount == null) ? BigDecimal.ZERO : discount;
 
         BigDecimal totalValue = order.add(delivery).subtract(discount);
+
         return totalValue;
     }
 }

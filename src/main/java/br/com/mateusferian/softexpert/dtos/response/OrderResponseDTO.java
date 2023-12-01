@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +19,5 @@ public class OrderResponseDTO {
 
     private UserResponseDTO user;
 
-    private FoodResponseDTO food;
+    private List<FoodResponseDTO> food;
 }
