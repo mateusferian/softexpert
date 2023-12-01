@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class PurchaseRequestDTO {
 
-    private String nameUser;
-
-    private DeliveryTypeEnum deliveryType;
+    private Long order;
 
     private BigDecimal discount;
+
+    private BigDecimal delivery;
 }
 

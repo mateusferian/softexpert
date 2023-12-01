@@ -31,17 +31,4 @@ public class PurchaseFacadeImpl implements PurchaseFacade {
     public PurchaseResponseDTO save(PurchaseRequestDTO request) {
         return mapper.toDto(purchaseService.save(mapper.toEntity(request)));
     }
-
-
-    private BigDecimal deliveryValidation(DeliveryTypeEnum deliveryTypeEnum){
-         BigDecimal deliveryFee = BigDecimal.valueOf(0);
-
-        if(deliveryTypeEnum.equals("WITH_DELIVERY")){
-            deliveryFee = BigDecimal.valueOf(DELIVERY_VALUE).add(deliveryFee);
-    }else{
-            deliveryFee = BigDecimal.valueOf(0);
-        }
-
-        return deliveryFee;
-    }
 }

@@ -1,5 +1,6 @@
 package br.com.mateusferian.softexpert.entities;
 
+import br.com.mateusferian.softexpert.dtos.response.OrderResponseDTO;
 import br.com.mateusferian.softexpert.enums.DeliveryTypeEnum;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,19 +21,20 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nameUser;
+    private Date RequestDate;
 
-    private DeliveryTypeEnum deliveryType;
+    private BigDecimal totalValue;
 
     private BigDecimal discount;
 
-    private BigDecimal totalPayable;
+    private BigDecimal delivery;
 
-    public PurchaseEntity(String nameUser, DeliveryTypeEnum deliveryType, BigDecimal discount, BigDecimal totalPayable) {
-        this.nameUser = nameUser;
-        this.deliveryType = deliveryType;
-        this.discount = discount;
-        this.totalPayable = totalPayable;
+    @ManyToOne
+    private OrderEntity order;
+
+    public PurchaseEntity(Date requestDate, OrderEntity order) {
+        RequestDate = requestDate;
+        this.order = order;
     }
 }
 
