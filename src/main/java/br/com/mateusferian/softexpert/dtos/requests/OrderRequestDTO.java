@@ -11,9 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class OrderRequestDTO {
 
-    private String nameOrder;
+    private Long user;
 
-    private BigDecimal value;
-
-    private Long purchase;
+    private Long food;
 }

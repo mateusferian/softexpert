@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Data
@@ -18,17 +19,18 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String nameOrder;
-
-    private BigDecimal value;
+    private Date RequestDate;
 
     @ManyToOne
-    private PurchaseEntity purchase;
+    private UserEntity user;
 
-    public OrderEntity(String nameOrder, BigDecimal value, PurchaseEntity purchase) {
-        this.nameOrder = nameOrder;
-        this.value = value;
-        this.purchase = purchase;
+    @ManyToOne
+    private FoodEntity food;
+
+    public OrderEntity(Date requestDate, UserEntity user, FoodEntity food) {
+        RequestDate = requestDate;
+        this.user = user;
+        this.food = food;
     }
 }
 

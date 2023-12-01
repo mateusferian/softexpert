@@ -5,15 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponseDTO {
+
     private Long id;
 
-    private String nameOrder;
+    private Date RequestDate;
 
-    private BigDecimal value;
+    private UserResponseDTO user;
 
-    private PurchaseResponseDTO purchase;
+    private FoodResponseDTO food;
 }
