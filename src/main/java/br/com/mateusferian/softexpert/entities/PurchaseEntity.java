@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,9 +33,5 @@ public class PurchaseEntity {
     @ManyToOne
     private OrderEntity order;
 
-    public PurchaseEntity(Date requestDate, OrderEntity order) {
-        RequestDate = requestDate;
-        this.order = order;
-    }
 }
 

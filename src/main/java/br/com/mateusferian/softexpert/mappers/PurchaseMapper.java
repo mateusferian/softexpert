@@ -39,11 +39,14 @@ public class PurchaseMapper {
     public PurchaseEntity toEntity(PurchaseRequestDTO request){
 
         PurchaseEntity purchase = mapper.map(request, PurchaseEntity.class);
-        OrderEntity order = orderRepository.findById(request.getOrder()).orElse(new OrderEntity());
+
+        OrderEntity order = (orderRepository.findById(request.getOrder()).orElse(new OrderEntity()));
+
         purchase.setRequestDate(new Date());
-        purchase.setOrder(order);
+
 
         BigDecimal valueTotalFoods = calculateTotalFoodCosts(order.getFood());
+        purchase.setOrder(order);
         purchase.setTotalValue(calculateTotal(valueTotalFoods, request.getDelivery() , request.getDiscount()));
 
         return purchase;
@@ -58,6 +61,14 @@ public class PurchaseMapper {
     }
 
     private BigDecimal calculateTotalFoodCosts(List<FoodEntity> foods) {
+        BigDecimal valueFoods = BigDecimal.ZERO;
+        for (FoodEntity food : foods) {
+            valueFoods = valueFoods.add(food.getValue());
+        }
+        return valueFoods;
+    }
+
+    private BigDecimal calculateTotalOrders(List<FoodEntity> foods) {
         BigDecimal valueFoods = BigDecimal.ZERO;
         for (FoodEntity food : foods) {
             valueFoods = valueFoods.add(food.getValue());
