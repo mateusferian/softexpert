@@ -39,15 +39,15 @@ public class PurchaseMapper {
     public PurchaseEntity toEntity(PurchaseRequestDTO request){
 
         PurchaseEntity purchase = mapper.map(request, PurchaseEntity.class);
+        List<Long> ordersId  = request.getOrder();
 
-        OrderEntity order = (orderRepository.findById(request.getOrder()).orElse(new OrderEntity()));
+        List<OrderEntity> orders = (List<OrderEntity>) orderRepository.findAllById(ordersId);
+        purchase.setOrder(orders);
 
         purchase.setRequestDate(new Date());
 
-
-        BigDecimal valueTotalFoods = calculateTotalFoodCosts(order.getFood());
-        purchase.setOrder(order);
-        purchase.setTotalValue(calculateTotal(valueTotalFoods, request.getDelivery() , request.getDiscount()));
+        BigDecimal valueTotalOrders = calculateTotalOrders(orders);
+        purchase.setTotalValue(calculateTotal(valueTotalOrders, request.getDelivery() , request.getDiscount()));
 
         return purchase;
     }
@@ -68,12 +68,12 @@ public class PurchaseMapper {
         return valueFoods;
     }
 
-    private BigDecimal calculateTotalOrders(List<FoodEntity> foods) {
-        BigDecimal valueFoods = BigDecimal.ZERO;
-        for (FoodEntity food : foods) {
-            valueFoods = valueFoods.add(food.getValue());
+    private BigDecimal calculateTotalOrders(List<OrderEntity> orders) {
+        BigDecimal valueOrders = BigDecimal.ZERO;
+        for (OrderEntity order : orders) {
+            valueOrders = valueOrders.add(calculateTotalFoodCosts(order.getFood()));
         }
-        return valueFoods;
+        return valueOrders;
     }
 
     private BigDecimal calculateTotal(BigDecimal order, BigDecimal delivery, BigDecimal discount) {

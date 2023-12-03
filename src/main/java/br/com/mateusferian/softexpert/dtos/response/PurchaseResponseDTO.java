@@ -24,5 +24,5 @@ public class PurchaseResponseDTO {
 
     private BigDecimal delivery;
 
-    private OrderResponseDTO order;
+    private List<OrderResponseDTO> order;
 }

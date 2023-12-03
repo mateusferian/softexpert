@@ -30,8 +30,13 @@ public class PurchaseEntity {
 
     private BigDecimal delivery;
 
-    @ManyToOne
-    private OrderEntity order;
+    @ManyToMany
+    @JoinTable(
+            name = "purchase_order_mapping",
+            joinColumns = @JoinColumn(name = "purchase_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<OrderEntity> order;
 
 }
 

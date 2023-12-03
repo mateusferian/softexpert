@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PurchaseRequestDTO {
 
-    private Long order;
+    private List<Long> order;
 
     private BigDecimal discount;
 
