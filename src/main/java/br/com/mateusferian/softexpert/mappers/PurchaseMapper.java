@@ -2,13 +2,12 @@ package br.com.mateusferian.softexpert.mappers;
 
 import br.com.mateusferian.softexpert.dtos.requests.PurchaseRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
+import br.com.mateusferian.softexpert.entities.DiscountEntity;
 import br.com.mateusferian.softexpert.entities.FoodEntity;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
 import br.com.mateusferian.softexpert.entities.PurchaseEntity;
-import br.com.mateusferian.softexpert.enums.DeliveryTypeEnum;
-import br.com.mateusferian.softexpert.repositories.FoodRepository;
 import br.com.mateusferian.softexpert.repositories.OrderRepository;
-import br.com.mateusferian.softexpert.repositories.PurchaseRepository;
+import br.com.mateusferian.softexpert.services.EndUserValueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -16,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,6 +29,9 @@ public class PurchaseMapper {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private EndUserValueService endUserValueService;
+
     public PurchaseResponseDTO toDto(PurchaseEntity entity) {
         return mapper.map(entity, PurchaseResponseDTO.class);
     }
@@ -43,9 +43,8 @@ public class PurchaseMapper {
 
         List<OrderEntity> orders = (List<OrderEntity>) orderRepository.findAllById(ordersId);
         purchase.setOrder(orders);
-
         purchase.setRequestDate(new Date());
-
+        purchase.setDiscountList(updateOrderInfo(orders));
         BigDecimal valueTotalOrders = calculateTotalOrders(orders);
         purchase.setTotalValue(calculateTotal(valueTotalOrders, request.getDelivery() , request.getDiscount()));
 
@@ -86,4 +85,39 @@ public class PurchaseMapper {
 
         return totalValue;
     }
+
+//    public List<Map<String, Object>> updateOrderInfo(List<OrderEntity> orders) {
+//        List<Map<String, Object>> listOfFinalValues = new ArrayList<>();
+//
+//        for (OrderEntity order : orders) {
+//            BigDecimal foodCost = calculateTotalFoodCosts(order.getFood());
+//
+//            Map<String, Object> orderInfoMap = new HashMap<>();
+//            orderInfoMap.put("userName", order.getUser().getName());
+//            orderInfoMap.put("foodCost", foodCost);
+//
+//            listOfFinalValues.add(orderInfoMap);
+//        }
+//
+//        return listOfFinalValues;
+//    }
+
+    public List<DiscountEntity> updateOrderInfo(List<OrderEntity> orders) {
+        List<DiscountEntity> listEndUserValue = new ArrayList<>();
+
+        for (OrderEntity order : orders) {
+            // Para cada pedido, criamos uma nova instância de EndUserValueEntity
+            DiscountEntity endUserValue = new DiscountEntity();
+
+            BigDecimal foodCost = calculateTotalFoodCosts(order.getFood());
+            endUserValue.setName(order.getUser().getName());
+            endUserValue.setValue(foodCost);
+
+            // Salvamos a instância de EndUserValueEntity
+            listEndUserValue.add(endUserValueService.save(endUserValue));
+        }
+
+        return listEndUserValue;
+    }
+
 }

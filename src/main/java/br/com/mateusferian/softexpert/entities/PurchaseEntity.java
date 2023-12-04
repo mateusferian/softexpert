@@ -1,8 +1,5 @@
 package br.com.mateusferian.softexpert.entities;
 
-import br.com.mateusferian.softexpert.dtos.response.OrderResponseDTO;
-import br.com.mateusferian.softexpert.enums.DeliveryTypeEnum;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,11 +29,18 @@ public class PurchaseEntity {
 
     @ManyToMany
     @JoinTable(
+            name = "purchase_discount_mapping",
+            joinColumns = @JoinColumn(name = "purchase_id"),
+            inverseJoinColumns = @JoinColumn(name = "discount_id")
+    )
+    private List<DiscountEntity> discountList;
+
+    @ManyToMany
+    @JoinTable(
             name = "purchase_order_mapping",
             joinColumns = @JoinColumn(name = "purchase_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private List<OrderEntity> order;
-
 }
 
