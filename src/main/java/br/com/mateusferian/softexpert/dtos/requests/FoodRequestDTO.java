@@ -14,4 +14,11 @@ public class FoodRequestDTO {
     private String name;
 
     private BigDecimal value;
+
+    @Override
+    public String toString() {
+        return "FoodRequestDTO{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

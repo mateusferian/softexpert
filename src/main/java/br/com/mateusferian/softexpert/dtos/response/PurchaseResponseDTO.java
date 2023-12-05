@@ -1,16 +1,13 @@
 package br.com.mateusferian.softexpert.dtos.response;
 
-import br.com.mateusferian.softexpert.entities.DiscountEntity;
-import br.com.mateusferian.softexpert.enums.DeliveryTypeEnum;
+import br.com.mateusferian.softexpert.entities.FinalPaymentValueEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -27,7 +24,7 @@ public class PurchaseResponseDTO {
 
     private BigDecimal delivery;
 
-    private List<DiscountEntity> finalPaymentValue;
+    private List<FinalPaymentValueEntity> finalPaymentValue;
 
     private List<OrderResponseDTO> order;
 

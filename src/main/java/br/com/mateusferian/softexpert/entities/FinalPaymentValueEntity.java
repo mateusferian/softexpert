@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DiscountEntity {
+public class FinalPaymentValueEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,8 +24,11 @@ public class DiscountEntity {
 
     private BigDecimal value;
 
-    public DiscountEntity(String name, BigDecimal value) {
-        this.name = name;
-        this.value = value;
+    @Override
+    public String toString() {
+        return "FinalPaymentValueEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

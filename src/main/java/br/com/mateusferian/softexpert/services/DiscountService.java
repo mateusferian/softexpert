@@ -1,10 +1,10 @@
 package br.com.mateusferian.softexpert.services;
 
-import br.com.mateusferian.softexpert.entities.DiscountEntity;
+import br.com.mateusferian.softexpert.entities.FinalPaymentValueEntity;
 
 public interface DiscountService {
 
-    Iterable<DiscountEntity> findAll();
+    Iterable<FinalPaymentValueEntity> findAll();
 
-    DiscountEntity save(DiscountEntity entity);
+    FinalPaymentValueEntity save(FinalPaymentValueEntity entity);
 }

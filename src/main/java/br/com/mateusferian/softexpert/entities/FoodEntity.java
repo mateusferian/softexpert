@@ -24,8 +24,11 @@ public class FoodEntity {
 
     private BigDecimal value;
 
-    public FoodEntity(String name, BigDecimal value) {
-        this.name = name;
-        this.value = value;
+    @Override
+    public String toString() {
+        return "FoodEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

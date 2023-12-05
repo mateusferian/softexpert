@@ -25,9 +25,12 @@ public class UserEntity {
 
     private String telephone;
 
-    public UserEntity(String name, String cpf, String telephone) {
-        this.name = name;
-        this.cpf = cpf;
-        this.telephone = telephone;
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", telephone='" + telephone + '\'' +
+                '}';
     }
 }

@@ -1,13 +1,8 @@
 package br.com.mateusferian.softexpert.mappers;
 
-import br.com.mateusferian.softexpert.dtos.requests.OrderRequestDTO;
 import br.com.mateusferian.softexpert.dtos.requests.UserRequestDTO;
-import br.com.mateusferian.softexpert.dtos.response.OrderResponseDTO;
 import br.com.mateusferian.softexpert.dtos.response.UserResponseDTO;
-import br.com.mateusferian.softexpert.entities.OrderEntity;
-import br.com.mateusferian.softexpert.entities.PurchaseEntity;
 import br.com.mateusferian.softexpert.entities.UserEntity;
-import br.com.mateusferian.softexpert.repositories.PurchaseRepository;
 import br.com.mateusferian.softexpert.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

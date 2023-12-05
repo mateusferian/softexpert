@@ -14,4 +14,12 @@ public class UserRequestDTO {
     private String cpf;
 
     private String telephone;
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                ", name='" + name + '\'' +
+                ", telephone='" + telephone + '\'' +
+                '}';
+    }
 }

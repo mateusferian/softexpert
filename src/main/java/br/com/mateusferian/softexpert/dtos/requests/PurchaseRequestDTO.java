@@ -18,5 +18,12 @@ public class PurchaseRequestDTO {
     private BigDecimal discount;
 
     private BigDecimal delivery;
+
+    @Override
+    public String toString() {
+        return "PurchaseRequestDTO{" +
+                "order=" + order +
+                '}';
+    }
 }
 

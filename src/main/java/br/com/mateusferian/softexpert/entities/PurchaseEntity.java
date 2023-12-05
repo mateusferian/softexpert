@@ -29,11 +29,11 @@ public class PurchaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "purchase_discount_mapping",
+            name = "purchase_final_payment_value_mapping",
             joinColumns = @JoinColumn(name = "purchase_id"),
-            inverseJoinColumns = @JoinColumn(name = "discount_id")
+            inverseJoinColumns = @JoinColumn(name = "final_payment_value_id")
     )
-    private List<DiscountEntity> finalPaymentValue;
+    private List<FinalPaymentValueEntity> finalPaymentValue;
 
     @ManyToMany
     @JoinTable(
@@ -42,5 +42,17 @@ public class PurchaseEntity {
             inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private List<OrderEntity> order;
+
+    @Override
+    public String toString() {
+        return "PurchaseEntity{" +
+                "id=" + id +
+                ", purchaseDate=" + purchaseDate +
+                ", finalPaymentValue=" + finalPaymentValue +
+                ", order=" + order +
+                '}';
+    }
 }
+
+
 
