@@ -45,11 +45,12 @@ public class PurchaseMapper {
     private TotalCalculatorUtil totalCalculatorUtil;
 
     public PurchaseResponseDTO toDto(PurchaseEntity entity) {
+        log.info("converting entity{} to dto", entity);
         return mapper.map(entity, PurchaseResponseDTO.class);
     }
 
     public PurchaseEntity toEntity(PurchaseRequestDTO request){
-
+        log.info("converting dto{} to entity", request);
         PurchaseEntity purchase = mapper.map(request, PurchaseEntity.class);
         List<Long> ordersId  = request.getOrder();
         List<OrderEntity> orders = (List<OrderEntity>) orderRepository.findAllById(ordersId);
@@ -65,6 +66,7 @@ public class PurchaseMapper {
     }
 
     public List<PurchaseResponseDTO> toDtoList(Iterable<PurchaseEntity> list){
+        log.info("converting entity list{} to dto list", list);
         List<PurchaseEntity> result = new ArrayList<>();
         list.forEach(result::add);
         return  result.stream()

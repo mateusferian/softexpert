@@ -38,11 +38,12 @@ public class OrderMapper {
     private FoodRepository foodRepository;
 
     public OrderResponseDTO toDto(OrderEntity entity) {
+        log.info("converting entity{} to dto", entity);
         return mapper.map(entity, OrderResponseDTO.class);
     }
 
     public OrderEntity toEntity(OrderRequestDTO request) {
-
+        log.info("converting dto{} to entity", request);
         OrderEntity order = mapper.map(request, OrderEntity.class);
 
             order.setRequestDate(new Date());
@@ -56,6 +57,7 @@ public class OrderMapper {
     }
 
     public List<OrderResponseDTO> toDtoList(Iterable<OrderEntity> list){
+        log.info("converting entity list{} to dto list", list);
         List<OrderEntity> result = new ArrayList<>();
         list.forEach(result::add);
         return  result.stream()

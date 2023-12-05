@@ -16,11 +16,13 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public Iterable<FoodEntity> findAll() {
+        log.info("listing foods");
         return foodRepository.findAll();
     }
 
     @Override
     public FoodEntity save(FoodEntity entity) {
+        log.info("registering a new food");
         return foodRepository.save(entity);
     }
 }

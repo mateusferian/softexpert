@@ -16,11 +16,13 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public Iterable<DiscountEntity> findAll() {
+        log.info("listing discounts");
         return discountRepository.findAll();
     }
 
     @Override
     public DiscountEntity save(DiscountEntity entity) {
+        log.info("registering a new discount");
         return discountRepository.save(entity);
     }
 }

@@ -22,14 +22,17 @@ public class FoodMapper {
     private ModelMapper mapper;
 
     public FoodResponseDTO toDto(FoodEntity entity) {
+        log.info("converting entity{} to dto", entity);
         return mapper.map(entity, FoodResponseDTO.class);
     }
 
     public FoodEntity toEntity(FoodRequestDTO request){
+        log.info("converting dto{} to entity", request);
         return mapper.map(request, FoodEntity.class);
     }
 
     public List<FoodResponseDTO> toDtoList(Iterable<FoodEntity> list){
+        log.info("converting entity list{} to dto list", list);
         List<FoodEntity> result = new ArrayList<>();
         list.forEach(result::add);
         return  result.stream()

@@ -29,14 +29,17 @@ public class UserMapper {
     private UserRepository userRepository;
 
     public UserResponseDTO toDto(UserEntity entity) {
+        log.info("converting entity{} to dto", entity);
         return mapper.map(entity, UserResponseDTO.class);
     }
 
     public UserEntity toEntity(UserRequestDTO request){
+        log.info("converting dto{} to entity", request);
         return mapper.map(request,UserEntity.class);
     }
 
     public List<UserResponseDTO> toDtoList(Iterable<UserEntity> list){
+        log.info("converting entity list{} to dto list", list);
         List<UserEntity> result = new ArrayList<>();
         list.forEach(result::add);
         return  result.stream()
