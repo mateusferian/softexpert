@@ -1,6 +1,5 @@
 package br.com.mateusferian.softexpert.dtos.response;
 
-import br.com.mateusferian.softexpert.entities.FinalPaymentValueEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +23,7 @@ public class PurchaseResponseDTO {
 
     private BigDecimal delivery;
 
-    private List<FinalPaymentValueEntity> finalPaymentValue;
+    private List<FinalPaymentValueResponseDTO> finalPaymentValue;
 
     private List<OrderResponseDTO> order;
-
 }
