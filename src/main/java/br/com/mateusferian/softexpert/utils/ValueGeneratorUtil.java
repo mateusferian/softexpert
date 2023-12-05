@@ -24,11 +24,12 @@ public class ValueGeneratorUtil {
         for (OrderEntity order : orders) {
 
             FinalPaymentValueEntity finalPaymentValue = new FinalPaymentValueEntity();
-            BigDecimal foodValue = calculatorUtil.calculateTotalFoodCosts(order.getFood());
+            BigDecimal foodValue = order.getTotalOrder();
             BigDecimal ordersValue = calculatorUtil.calculateTotalOrders(orders);
 
             finalPaymentValue.setName(order.getUser().getName());
-            finalPaymentValue.setValue(calculatorUtil.calculatingValueForEachUser(foodValue,ordersValue, discount,delivery));
+            finalPaymentValue.setGrossValue(foodValue);
+            finalPaymentValue.setNetValue(calculatorUtil.calculatingValueForEachUser(foodValue,ordersValue, discount,delivery));
 
             finalPaymentValueEntities.add(finalPaymentValueService.save(finalPaymentValue));
         }

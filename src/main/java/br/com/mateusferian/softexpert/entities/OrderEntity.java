@@ -22,6 +22,8 @@ public class OrderEntity {
 
     private Date RequestDate;
 
+    private BigDecimal TotalOrder;
+
     @ManyToOne
     private UserEntity user;
 

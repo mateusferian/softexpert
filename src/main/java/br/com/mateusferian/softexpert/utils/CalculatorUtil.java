@@ -38,13 +38,13 @@ public class CalculatorUtil {
         BigDecimal valueOrders = BigDecimal.ZERO;
 
         for (OrderEntity order : orders) {
-            valueOrders = valueOrders.add(calculateTotalFoodCosts(order.getFood()));
+            valueOrders = valueOrders.add(order.getTotalOrder());
         }
 
         return valueOrders;
     }
 
-    public BigDecimal calculateTotalFoodCosts(List<FoodEntity> foods) {
+    public BigDecimal calculateTotalFoodValue(List<FoodEntity> foods) {
         BigDecimal valueFoods = BigDecimal.ZERO;
 
         for (FoodEntity food : foods) {

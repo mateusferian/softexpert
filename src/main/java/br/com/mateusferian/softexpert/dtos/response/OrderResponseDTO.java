@@ -17,6 +17,8 @@ public class OrderResponseDTO {
 
     private Date RequestDate;
 
+    private BigDecimal TotalOrder;
+
     private UserResponseDTO user;
 
     private List<FoodResponseDTO> food;

@@ -15,7 +15,9 @@ public class FinalPaymentValueResponseDTO {
 
     private String name;
 
-    private BigDecimal value;
+    private BigDecimal GrossValue;
+
+    private BigDecimal netValue;
 
     @Override
     public String toString() {

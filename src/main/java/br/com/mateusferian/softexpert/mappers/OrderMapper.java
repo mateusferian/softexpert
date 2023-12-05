@@ -8,6 +8,7 @@ import br.com.mateusferian.softexpert.entities.UserEntity;
 import br.com.mateusferian.softexpert.repositories.FoodRepository;
 import br.com.mateusferian.softexpert.repositories.OrderRepository;
 import br.com.mateusferian.softexpert.repositories.UserRepository;
+import br.com.mateusferian.softexpert.utils.CalculatorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,9 @@ public class OrderMapper {
     @Autowired
     private FoodRepository foodRepository;
 
+    @Autowired
+    private CalculatorUtil calculatorUtil;
+
     public OrderResponseDTO toDto(OrderEntity entity) {
         log.info("converting entity{} to dto", entity);
         return mapper.map(entity, OrderResponseDTO.class);
@@ -51,6 +55,7 @@ public class OrderMapper {
         List<FoodEntity> foods = (List<FoodEntity>) foodRepository.findAllById(foodIds);
         order.setFood(foods);
 
+        order.setTotalOrder(calculatorUtil.calculateTotalFoodValue(order.getFood()));
             order.setUser(userRepository.findById(request.getUser()).orElse(new UserEntity()));
 
         return order;
