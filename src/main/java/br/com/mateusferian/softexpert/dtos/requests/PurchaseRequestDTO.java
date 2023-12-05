@@ -17,7 +17,7 @@ public class PurchaseRequestDTO {
 
     private BigDecimal discount;
 
-    private BigDecimal delivery;
+    private BigDecimal additionalOperational;
 
     @Override
     public String toString() {

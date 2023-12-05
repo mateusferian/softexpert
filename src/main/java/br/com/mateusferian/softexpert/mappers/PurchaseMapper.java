@@ -49,10 +49,10 @@ public class PurchaseMapper {
 
         purchase.setOrder(orders);
         purchase.setPurchaseDate(new Date());
-        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getDelivery()));
+        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getAdditionalOperational()));
 
         BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
-        purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getDelivery() , request.getDiscount()));
+        purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getAdditionalOperational() , request.getDiscount()));
 
         return purchase;
     }

@@ -25,7 +25,7 @@ public class PurchaseEntity {
 
     private BigDecimal discount;
 
-    private BigDecimal delivery;
+    private BigDecimal additionalOperational;
 
     @ManyToMany
     @JoinTable(

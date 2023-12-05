@@ -21,7 +21,7 @@ public class PurchaseResponseDTO {
 
     private BigDecimal discount;
 
-    private BigDecimal delivery;
+    private BigDecimal additionalOperational;
 
     private List<FinalPaymentValueResponseDTO> finalPaymentValue;
 

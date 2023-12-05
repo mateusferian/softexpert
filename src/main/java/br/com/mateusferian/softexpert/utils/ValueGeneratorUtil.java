@@ -18,7 +18,7 @@ public class ValueGeneratorUtil {
     @Autowired
     private CalculatorUtil calculatorUtil;
 
-    public List<FinalPaymentValueEntity> finalValueGenerator(List<OrderEntity> orders, BigDecimal discount, BigDecimal delivery) {
+    public List<FinalPaymentValueEntity> finalValueGenerator(List<OrderEntity> orders, BigDecimal discount, BigDecimal additionalOperational) {
         List<FinalPaymentValueEntity> finalPaymentValueEntities = new ArrayList<>();
 
         for (OrderEntity order : orders) {
@@ -29,7 +29,7 @@ public class ValueGeneratorUtil {
 
             finalPaymentValue.setName(order.getUser().getName());
             finalPaymentValue.setGrossValue(foodValue);
-            finalPaymentValue.setNetValue(calculatorUtil.calculatingValueForEachUser(foodValue,ordersValue, discount,delivery));
+            finalPaymentValue.setNetValue(calculatorUtil.calculatingValueForEachUser(foodValue, ordersValue, discount, additionalOperational));
 
             finalPaymentValueEntities.add(finalPaymentValueService.save(finalPaymentValue));
         }

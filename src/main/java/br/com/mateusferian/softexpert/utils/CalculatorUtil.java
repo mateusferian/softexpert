@@ -10,23 +10,23 @@ import java.util.List;
 @Component
 public class CalculatorUtil {
 
-    public BigDecimal calculatingTotalPurchase(BigDecimal order, BigDecimal delivery, BigDecimal discount) {
+    public BigDecimal calculatingTotalPurchase(BigDecimal order, BigDecimal additionalOperational, BigDecimal discount) {
 
         order = (order == null) ? BigDecimal.ZERO : order;
-        delivery = (delivery == null) ? BigDecimal.ZERO : delivery;
+        additionalOperational = (additionalOperational == null) ? BigDecimal.ZERO : additionalOperational;
         discount = (discount == null) ? BigDecimal.ZERO : discount;
 
         BigDecimal totalDiscount = order.subtract(discount);
-        BigDecimal totalPurchase = totalDiscount.add(delivery);
+        BigDecimal totalPurchase = totalDiscount.add(additionalOperational);
 
         return totalPurchase;
     }
 
-    public BigDecimal calculatingValueForEachUser(BigDecimal valorA, BigDecimal ordersValue, BigDecimal discount , BigDecimal delivery) {
+    public BigDecimal calculatingValueForEachUser(BigDecimal foodValue, BigDecimal ordersValue, BigDecimal discount , BigDecimal additionalOperational) {
 
-        BigDecimal totalPurchase = calculatingTotalPurchase(ordersValue,delivery,discount);
+        BigDecimal totalPurchase = calculatingTotalPurchase(ordersValue, additionalOperational, discount);
 
-        BigDecimal proportionValue = valorA.divide(ordersValue, 2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal proportionValue = foodValue.divide(ordersValue, 2, BigDecimal.ROUND_HALF_UP);
         BigDecimal finalValue = totalPurchase.multiply(proportionValue);
 
         BigDecimal result = finalValue.setScale(2, BigDecimal.ROUND_HALF_UP);
