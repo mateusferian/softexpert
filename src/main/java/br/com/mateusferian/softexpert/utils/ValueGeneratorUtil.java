@@ -2,7 +2,7 @@ package br.com.mateusferian.softexpert.utils;
 
 import br.com.mateusferian.softexpert.entities.FinalPaymentValueEntity;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
-import br.com.mateusferian.softexpert.services.DiscountService;
+import br.com.mateusferian.softexpert.services.FinalPaymentValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class ValueGeneratorUtil {
     private FoodCalculatorUtil foodCalculatorUtil;
 
     @Autowired
-    private DiscountService discountService;
+    private FinalPaymentValueService finalPaymentValueService;
 
     public List<FinalPaymentValueEntity> finalValueGenerator(List<OrderEntity> orders) {
         List<FinalPaymentValueEntity> finalPaymentValueEntities = new ArrayList<>();
@@ -28,7 +28,7 @@ public class ValueGeneratorUtil {
             finalPaymentValue.setName(order.getUser().getName());
             finalPaymentValue.setValue(foodCost);
 
-            finalPaymentValueEntities.add(discountService.save(finalPaymentValue));
+            finalPaymentValueEntities.add(finalPaymentValueService.save(finalPaymentValue));
         }
 
         return finalPaymentValueEntities;
