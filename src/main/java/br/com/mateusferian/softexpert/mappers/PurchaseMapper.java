@@ -56,8 +56,8 @@ public class PurchaseMapper {
         List<OrderEntity> orders = (List<OrderEntity>) orderRepository.findAllById(ordersId);
 
         purchase.setOrder(orders);
-        purchase.setRequestDate(new Date());
-        purchase.setDiscountList(valueGeneratorUtil.finalValueGenerator(orders));
+        purchase.setPurchaseDate(new Date());
+        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders));
 
         BigDecimal valueTotalOrders = orderCalculatorUtil.calculateTotalOrders(orders);
         purchase.setTotalValue(totalCalculatorUtil.calculateTotal(valueTotalOrders, request.getDelivery() , request.getDiscount()));

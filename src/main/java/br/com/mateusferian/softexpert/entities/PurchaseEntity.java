@@ -19,7 +19,7 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date RequestDate;
+    private Date purchaseDate;
 
     private BigDecimal totalValue;
 
@@ -33,7 +33,7 @@ public class PurchaseEntity {
             joinColumns = @JoinColumn(name = "purchase_id"),
             inverseJoinColumns = @JoinColumn(name = "discount_id")
     )
-    private List<DiscountEntity> discountList;
+    private List<DiscountEntity> finalPaymentValue;
 
     @ManyToMany
     @JoinTable(

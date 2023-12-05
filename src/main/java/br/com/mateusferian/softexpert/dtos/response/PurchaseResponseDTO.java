@@ -19,7 +19,7 @@ public class PurchaseResponseDTO {
 
     private Long id;
 
-    private Date RequestDate;
+    private Date purchaseDate;
 
     private BigDecimal totalValue;
 
@@ -27,7 +27,7 @@ public class PurchaseResponseDTO {
 
     private BigDecimal delivery;
 
-    private List<DiscountEntity> discountList;
+    private List<DiscountEntity> finalPaymentValue;
 
     private List<OrderResponseDTO> order;
 
