@@ -2,7 +2,7 @@ package br.com.mateusferian.softexpert.services;
 
 import br.com.mateusferian.softexpert.entities.DiscountEntity;
 
-public interface EndUserValueService {
+public interface DiscountService {
 
     Iterable<DiscountEntity> findAll();
 
