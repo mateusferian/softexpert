@@ -5,9 +5,7 @@ import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
 import br.com.mateusferian.softexpert.entities.PurchaseEntity;
 import br.com.mateusferian.softexpert.repositories.OrderRepository;
-import br.com.mateusferian.softexpert.utils.FoodCalculatorUtil;
-import br.com.mateusferian.softexpert.utils.OrderCalculatorUtil;
-import br.com.mateusferian.softexpert.utils.TotalCalculatorUtil;
+import br.com.mateusferian.softexpert.utils.CalculatorUtil;
 import br.com.mateusferian.softexpert.utils.ValueGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +31,10 @@ public class PurchaseMapper {
     private OrderRepository orderRepository;
 
     @Autowired
-    private FoodCalculatorUtil foodCalculatorUtil;
-
-    @Autowired
-    private OrderCalculatorUtil orderCalculatorUtil;
-
-    @Autowired
     private ValueGeneratorUtil valueGeneratorUtil;
 
     @Autowired
-    private TotalCalculatorUtil totalCalculatorUtil;
+    private CalculatorUtil calculatorUtil;
 
     public PurchaseResponseDTO toDto(PurchaseEntity entity) {
         log.info("converting entity{} to dto", entity);
@@ -59,8 +51,8 @@ public class PurchaseMapper {
         purchase.setPurchaseDate(new Date());
         purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getDelivery()));
 
-        BigDecimal valueTotalOrders = orderCalculatorUtil.calculateTotalOrders(orders);
-        purchase.setTotalValue(totalCalculatorUtil.calculateTotal(valueTotalOrders, request.getDelivery() , request.getDiscount()));
+        BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
+        purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getDelivery() , request.getDiscount()));
 
         return purchase;
     }
