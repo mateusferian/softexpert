@@ -18,19 +18,38 @@ public class ValueGeneratorUtil {
     @Autowired
     private FinalPaymentValueService finalPaymentValueService;
 
-    public List<FinalPaymentValueEntity> finalValueGenerator(List<OrderEntity> orders) {
+    @Autowired
+    private OrderCalculatorUtil orderCalculatorUtil;
+
+    public List<FinalPaymentValueEntity> finalValueGenerator(List<OrderEntity> orders, BigDecimal discount, BigDecimal delivery) {
         List<FinalPaymentValueEntity> finalPaymentValueEntities = new ArrayList<>();
 
         for (OrderEntity order : orders) {
 
             FinalPaymentValueEntity finalPaymentValue = new FinalPaymentValueEntity();
-            BigDecimal foodCost = foodCalculatorUtil.calculateTotalFoodCosts(order.getFood());
+            BigDecimal foodValue = foodCalculatorUtil.calculateTotalFoodCosts(order.getFood());
+            BigDecimal ordersValue = orderCalculatorUtil.calculateTotalOrders(orders);
+
             finalPaymentValue.setName(order.getUser().getName());
-            finalPaymentValue.setValue(foodCost);
+            finalPaymentValue.setValue(calculatingValueForEachUser(foodValue,ordersValue, discount,delivery));
 
             finalPaymentValueEntities.add(finalPaymentValueService.save(finalPaymentValue));
         }
 
         return finalPaymentValueEntities;
+    }
+    public  BigDecimal calculatingValueForEachUser(BigDecimal valorA, BigDecimal ordersValue, BigDecimal discount , BigDecimal delivery) {
+
+        BigDecimal totalDiscount = ordersValue.subtract(discount);
+
+        BigDecimal totalWithAddition = totalDiscount.add(delivery);
+
+        BigDecimal proportionValue = valorA.divide(ordersValue, 2, BigDecimal.ROUND_HALF_UP);
+
+        BigDecimal valorFinalA = totalWithAddition.multiply(proportionValue);
+
+        BigDecimal result = valorFinalA.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        return  result;
     }
 }

@@ -57,7 +57,7 @@ public class PurchaseMapper {
 
         purchase.setOrder(orders);
         purchase.setPurchaseDate(new Date());
-        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders));
+        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getDelivery()));
 
         BigDecimal valueTotalOrders = orderCalculatorUtil.calculateTotalOrders(orders);
         purchase.setTotalValue(totalCalculatorUtil.calculateTotal(valueTotalOrders, request.getDelivery() , request.getDiscount()));
