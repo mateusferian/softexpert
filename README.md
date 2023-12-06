@@ -45,4 +45,3 @@ http://localhost:8080/swagger-ui.html#/
 * [Model Mapper](http://modelmapper.org/) - applications often consist of similar but different object models where the data in two models may be similar but the structure and concerns of the models are different. Object mapping makes it easy to convert from one model to another, allowing separate models to remain segregated.
 ####
 * [Swagger](https://swagger.io/) - Simplify API development for users, teams, and enterprises with the open source, professional Swagger toolset.
-####
