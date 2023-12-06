@@ -4,9 +4,9 @@ import br.com.mateusferian.softexpert.dtos.requests.PurchaseRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
 import br.com.mateusferian.softexpert.entities.PurchaseEntity;
-import br.com.mateusferian.softexpert.enums.OperationTypeEnum;
 import br.com.mateusferian.softexpert.repositories.OrderRepository;
 import br.com.mateusferian.softexpert.utils.CalculatorUtil;
+import br.com.mateusferian.softexpert.utils.CheckUtil;
 import br.com.mateusferian.softexpert.utils.ValueGeneratorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +37,9 @@ public class PurchaseMapper {
     @Autowired
     private CalculatorUtil calculatorUtil;
 
+    @Autowired
+    private CheckUtil checkUtil;
+
     public PurchaseResponseDTO toDto(PurchaseEntity entity) {
         log.info("converting entity{} to dto", entity);
         return mapper.map(entity, PurchaseResponseDTO.class);
@@ -50,29 +53,13 @@ public class PurchaseMapper {
 
         purchase.setOrder(orders);
         purchase.setPurchaseDate(new Date());
-        if(request.getOperationType() == OperationTypeEnum.OPERATION_IN_VALUE) {
-            purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getAdditionalOperational()));
 
-            BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
-            purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getAdditionalOperational(), request.getDiscount()));
+        BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
+        BigDecimal valueOfTheIncrease = checkUtil.operationTypeCheck(request.getOperationType(), request.getAdditionalOperational(),valueTotalOrders);
 
-        }else if(request.getOperationType() == OperationTypeEnum.OPERATION_IN_PERCENTAGE) {
-            BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
-
-            BigDecimal porcentual = request.getAdditionalOperational().divide(new BigDecimal("100"));
-            BigDecimal totalporcenatgem = porcentual.multiply(valueTotalOrders);
-
-
-            totalporcenatgem = totalporcenatgem.stripTrailingZeros();
-
-log.info("STARTT=============== {}", totalporcenatgem);
-            purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), totalporcenatgem));
-
-            purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, totalporcenatgem, request.getDiscount()));
-
-
-        }
-
+        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), valueOfTheIncrease));
+        purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, valueOfTheIncrease, request.getDiscount()));
+        
         return purchase;
     }
 
@@ -85,3 +72,4 @@ log.info("STARTT=============== {}", totalporcenatgem);
                 .collect(Collectors.toList());
     }
 }
+

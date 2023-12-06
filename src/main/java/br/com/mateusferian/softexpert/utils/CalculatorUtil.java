@@ -53,4 +53,14 @@ public class CalculatorUtil {
 
         return valueFoods;
     }
+
+    public BigDecimal calculatingPercentageOfTotal(BigDecimal additionalOperational, BigDecimal valueTotalOrders){
+
+        BigDecimal percentage = additionalOperational.divide(new BigDecimal("100"));
+        BigDecimal totalPercentageValue = percentage.multiply(valueTotalOrders);
+
+        totalPercentageValue = totalPercentageValue.stripTrailingZeros();
+
+        return totalPercentageValue;
+    }
 }
