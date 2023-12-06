@@ -33,5 +33,15 @@ public class OrderEntity {
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )
     private List<FoodEntity> food;
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "id=" + id +
+                ", RequestDate=" + RequestDate +
+                ", user=" + user +
+                ", food=" + food +
+                '}';
+    }
 }
 
