@@ -6,6 +6,7 @@ import br.com.mateusferian.softexpert.facades.PurchaseFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public PurchaseResponseDTO save(@RequestBody PurchaseRequestDTO request){
+    public PurchaseResponseDTO save(@Valid  @RequestBody PurchaseRequestDTO request){
         return purchaseFacade.save(request);
     }
 }

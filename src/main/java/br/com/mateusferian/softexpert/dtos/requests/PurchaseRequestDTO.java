@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,12 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 public class PurchaseRequestDTO {
 
+    @NotEmpty(message = "{empty.list}")
     private List<Long> order;
 
+    @NotNull(message = "{null.field}")
+    @Min(value = 1, message = "{below.the.minimum}")
+    @Max(value = 250, message = "{above.the.maximum}")
     private BigDecimal discount;
 
     private OperationTypeEnum operationType;
 
+    @NotNull(message = "{null.field}")
+    @Min(value = 1, message = "{below.the.minimum}")
+    @Max(value = 250, message = "{above.the.maximum}")
     private BigDecimal additionalOperational;
 
     @Override
