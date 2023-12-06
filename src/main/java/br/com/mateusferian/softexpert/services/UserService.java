@@ -7,4 +7,6 @@ public interface UserService {
     Iterable<UserEntity> findAll();
 
     UserEntity save(UserEntity entity);
+
+    UserEntity findById(Long id);
 }

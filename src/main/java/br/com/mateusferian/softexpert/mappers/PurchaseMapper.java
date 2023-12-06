@@ -4,7 +4,9 @@ import br.com.mateusferian.softexpert.dtos.requests.PurchaseRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
 import br.com.mateusferian.softexpert.entities.PurchaseEntity;
-import br.com.mateusferian.softexpert.repositories.OrderRepository;
+import br.com.mateusferian.softexpert.exceptions.OrderException;
+import br.com.mateusferian.softexpert.exceptions.enums.OrderEnum;
+import br.com.mateusferian.softexpert.services.OrderService;
 import br.com.mateusferian.softexpert.utils.CalculatorUtil;
 import br.com.mateusferian.softexpert.utils.CheckUtil;
 import br.com.mateusferian.softexpert.utils.ValueGeneratorUtil;
@@ -29,7 +31,7 @@ public class PurchaseMapper {
     private ModelMapper mapper;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     @Autowired
     private ValueGeneratorUtil valueGeneratorUtil;
@@ -49,7 +51,14 @@ public class PurchaseMapper {
         log.info("converting dto{} to entity", request);
         PurchaseEntity purchase = mapper.map(request, PurchaseEntity.class);
         List<Long> ordersId  = request.getOrder();
-        List<OrderEntity> orders = (List<OrderEntity>) orderRepository.findAllById(ordersId);
+        List<OrderEntity> orders = (List<OrderEntity>) orderService.findAllById(ordersId);
+
+        List<Long> foundIds = orders.stream().map(OrderEntity::getId).collect(Collectors.toList());
+        List<Long> notFoundIds = ordersId.stream().filter(id -> !foundIds.contains(id)).collect(Collectors.toList());
+
+        if(!notFoundIds.isEmpty()) {
+            throw new OrderException(OrderEnum.SOME_OF_ORDERS_NOT_FOUND);
+        }
 
         purchase.setOrder(orders);
         purchase.setPurchaseDate(new Date());

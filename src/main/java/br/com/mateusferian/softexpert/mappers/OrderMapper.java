@@ -4,10 +4,10 @@ import br.com.mateusferian.softexpert.dtos.requests.OrderRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.OrderResponseDTO;
 import br.com.mateusferian.softexpert.entities.FoodEntity;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
-import br.com.mateusferian.softexpert.entities.UserEntity;
-import br.com.mateusferian.softexpert.repositories.FoodRepository;
-import br.com.mateusferian.softexpert.repositories.OrderRepository;
-import br.com.mateusferian.softexpert.repositories.UserRepository;
+import br.com.mateusferian.softexpert.exceptions.FoodException;
+import br.com.mateusferian.softexpert.exceptions.enums.FoodEnum;
+import br.com.mateusferian.softexpert.services.FoodService;
+import br.com.mateusferian.softexpert.services.UserService;
 import br.com.mateusferian.softexpert.utils.CalculatorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +29,10 @@ public class OrderMapper {
     private ModelMapper mapper;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private FoodRepository foodRepository;
+    private FoodService foodService;
 
     @Autowired
     private CalculatorUtil calculatorUtil;
@@ -52,11 +48,18 @@ public class OrderMapper {
 
             order.setRequestDate(new Date());
         List<Long> foodIds = request.getFood();
-        List<FoodEntity> foods = (List<FoodEntity>) foodRepository.findAllById(foodIds);
+        List<FoodEntity> foods = (List<FoodEntity>) foodService.findAllById(foodIds);
         order.setFood(foods);
 
+        List<Long> foundIds = foods.stream().map(FoodEntity::getId).collect(Collectors.toList());
+        List<Long> notFoundIds = foodIds.stream().filter(id -> !foundIds.contains(id)).collect(Collectors.toList());
+
+        if(!notFoundIds.isEmpty()) {
+            throw  new FoodException(FoodEnum.SOME_OF_THE_FOOD_WERE_NOT_FOUND);
+        }
+
         order.setTotalOrder(calculatorUtil.calculateTotalFoodValue(order.getFood()));
-            order.setUser(userRepository.findById(request.getUser()).orElse(new UserEntity()));
+            order.setUser(userService.findById(request.getUser()));
 
         return order;
     }
