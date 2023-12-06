@@ -18,12 +18,4 @@ public class FinalPaymentValueResponseDTO {
     private BigDecimal GrossValue;
 
     private BigDecimal netValue;
-
-    @Override
-    public String toString() {
-        return "FinalPaymentValueEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
