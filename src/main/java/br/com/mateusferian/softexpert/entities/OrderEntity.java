@@ -1,6 +1,5 @@
 package br.com.mateusferian.softexpert.entities;
 
-import br.com.mateusferian.softexpert.enums.DeliveryTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
 package br.com.mateusferian.softexpert.dtos.response;
 
+import br.com.mateusferian.softexpert.enums.OperationTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class PurchaseResponseDTO {
     private BigDecimal totalValue;
 
     private BigDecimal discount;
+
+    private OperationTypeEnum operationType;
 
     private BigDecimal additionalOperational;
 

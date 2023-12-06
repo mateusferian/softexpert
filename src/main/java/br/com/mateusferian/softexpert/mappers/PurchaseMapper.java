@@ -4,6 +4,7 @@ import br.com.mateusferian.softexpert.dtos.requests.PurchaseRequestDTO;
 import br.com.mateusferian.softexpert.dtos.response.PurchaseResponseDTO;
 import br.com.mateusferian.softexpert.entities.OrderEntity;
 import br.com.mateusferian.softexpert.entities.PurchaseEntity;
+import br.com.mateusferian.softexpert.enums.OperationTypeEnum;
 import br.com.mateusferian.softexpert.repositories.OrderRepository;
 import br.com.mateusferian.softexpert.utils.CalculatorUtil;
 import br.com.mateusferian.softexpert.utils.ValueGeneratorUtil;
@@ -49,10 +50,28 @@ public class PurchaseMapper {
 
         purchase.setOrder(orders);
         purchase.setPurchaseDate(new Date());
-        purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getAdditionalOperational()));
+        if(request.getOperationType() == OperationTypeEnum.OPERATION_IN_VALUE) {
+            purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), request.getAdditionalOperational()));
 
-        BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
-        purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getAdditionalOperational() , request.getDiscount()));
+            BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
+            purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, request.getAdditionalOperational(), request.getDiscount()));
+
+        }else if(request.getOperationType() == OperationTypeEnum.OPERATION_IN_PERCENTAGE) {
+            BigDecimal valueTotalOrders = calculatorUtil.calculateTotalOrders(orders);
+
+            BigDecimal porcentual = request.getAdditionalOperational().divide(new BigDecimal("100"));
+            BigDecimal totalporcenatgem = porcentual.multiply(valueTotalOrders);
+
+
+            totalporcenatgem = totalporcenatgem.stripTrailingZeros();
+
+log.info("STARTT=============== {}", totalporcenatgem);
+            purchase.setFinalPaymentValue(valueGeneratorUtil.finalValueGenerator(orders, request.getDiscount(), totalporcenatgem));
+
+            purchase.setTotalValue(calculatorUtil.calculatingTotalPurchase(valueTotalOrders, totalporcenatgem, request.getDiscount()));
+
+
+        }
 
         return purchase;
     }
